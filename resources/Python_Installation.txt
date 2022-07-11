@@ -1,0 +1,56 @@
+1. Install Python in Windows
+- Go to Microsoft Store in system
+- Click on Get Install python 3.10 to install it on system
+
+--- OR ---
+
+1. Install Python in Windows
+- Go to https://www.python.org/downloads/
+- Install the latest version of Python 3
+- In the installation Wizard, be sure to check the box that you want to download pip
+	- If you forgot to do this, you can always modify the installation later by openning up the installation wizard again.
+
+2. Verify if python is properly installed
+- Go to Command Prompt or PowerShell and type 'python'
+	--- or ---
+- Go to Command Prompt or PowerShell and type 'py'
+- You should see something like this:
+
+Result: Python 3.10.2 (tags/v3.10.2:a58ebcc, Jan 17 2022, 14:12:15) [MSC v.1929 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+
+3. Verify pip is properly installed
+- Open command prompt or PowerShell
+- enter 'pip -V'
+- You should see something like this:
+
+Result: pip 21.2.4 from C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.752.0_x64__qbz5n2kfra8p0\lib\site-packages\pip (python 3.10)
+
+---------------------------------------------------------------------------------------
+4. Install Jupyter notebook
+- Open command prompt or PowerShell
+- enter 'pip install notebook'
+
+5. To run Jupyter notebook
+- Open command prompt or PowerShell
+- enter 'python -m notebook'
+- A browser should open showing the Jupyter notebook
+
+6. Steps to setup jupyter notebook password:
+- Open the command prompt
+- Enter the following in cmd prompt: (python -m notebook password)
+- Enter the password 
+- verify the password
+
+7. Steps to login to jupyter notebook after seting up the password
+- Open the command prompt (to start the python kernal)
+- Enter the following in cmd prompt: (python -m notebook)
+- It will start the python kernal and open the jupyter notebook in web browser, prompting to enter the password
+- Enter the password as created in point 6 above.
+
+8. Run a python code 1 in jupyter notebook
+- In the opened jupyter notebook, click on new > python 3 
+- Enter the below python code in the In [] area and click on 'Run'
+
+print('Hello, world!')
