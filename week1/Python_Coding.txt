@@ -1,0 +1,221 @@
+Namespaces in Python
+
+A namespace is a collection of currently defined symbolic names along with information about the object that each name references. You can think of a namespace as a dictionary in which the keys are the object names and the values are the objects themselves. Each key-value pair maps a name to its corresponding object.
+
+A lifetime of a namespace depends upon the scope of objects, if the scope of an object ends, the lifetime of that namespace comes to an end. Hence, it is not possible to access the inner namespace’s objects from an outer namespace.
+ 
+Built-In
+Global
+Enclosing
+Local
+
+1)The Built-In Namespace
+
+The built-in namespace contains the names of all of Python’s built-in objects. 
+These are available at all times when Python is running. 
+
+dir(__builtins__)
+['ArithmeticError', 'AssertionError', 'AttributeError',
+ 'BaseException','BlockingIOError', 'BrokenPipeError', 'BufferError',
+ 'BytesWarning', 'ChildProcessError', 'ConnectionAbortedError',
+ 'ConnectionError', 'ConnectionRefusedError', 'ConnectionResetError',
+ 'DeprecationWarning', 'EOFError', 'Ellipsis', 'EnvironmentError',
+ 'Exception', 'False', 'FileExistsError', 'FileNotFoundError',
+ 'FloatingPointError', 'FutureWarning', 'GeneratorExit', 'IOError',
+ 'ImportError', 'ImportWarning', 'IndentationError', 'IndexError',
+ 'InterruptedError', 'IsADirectoryError', 'KeyError', 'KeyboardInterrupt',
+ 'LookupError', 'MemoryError', 'ModuleNotFoundError', 'NameError', 'None',
+ 'NotADirectoryError', 'NotImplemented', 'NotImplementedError', 'OSError',
+ 'OverflowError', 'PendingDeprecationWarning', 'PermissionError',
+ 'ProcessLookupError', 'RecursionError', 'ReferenceError', 'ResourceWarning',
+ 'RuntimeError', 'RuntimeWarning', 'StopAsyncIteration', 'StopIteration',
+ 'SyntaxError', 'SyntaxWarning', 'SystemError', 'SystemExit', 'TabError',
+ 'TimeoutError', 'True', 'TypeError', 'UnboundLocalError',
+ 'UnicodeDecodeError', 'UnicodeEncodeError', 'UnicodeError',
+ 'UnicodeTranslateError', 'UnicodeWarning', 'UserWarning', 'ValueError',
+ 'Warning', 'ZeroDivisionError', '_', '__build_class__', '__debug__',
+ '__doc__', '__import__', '__loader__', '__name__', '__package__',
+ '__spec__', 'abs', 'all', 'any', 'ascii', 'bin', 'bool', 'bytearray',
+ 'bytes', 'callable', 'chr', 'classmethod', 'compile', 'complex',
+ 'copyright', 'credits', 'delattr', 'dict', 'dir', 'divmod', 'enumerate',
+ 'eval', 'exec', 'exit', 'filter', 'float', 'format', 'frozenset',
+ 'getattr', 'globals', 'hasattr', 'hash', 'help', 'hex', 'id', 'input',
+ 'int', 'isinstance', 'issubclass', 'iter', 'len', 'license', 'list',
+ 'locals', 'map', 'max', 'memoryview', 'min', 'next', 'object', 'oct',
+ 'open', 'ord', 'pow', 'print', 'property', 'quit', 'range', 'repr',
+ 'reversed', 'round', 'set', 'setattr', 'slice', 'sorted', 'staticmethod',
+ 'str', 'sum', 'super', 'tuple', 'type', 'vars', 'zip']
+
+2)The Global Namespace
+
+The global namespace contains any names defined at the level of the main program. Python creates the global namespace when the main program body starts, and it remains in existence until the interpreter terminates.
+
+# Python program processing
+# global variable
+ 
+count = 5
+def some_method():
+    global count
+    count = count + 1
+    print(count)
+some_method()
+
+3) Enclosing Namespace and Local namespace
+
+# var1 is in the global namespace
+var1 = 5
+def some_func():
+ 
+    # var2 is in the local namespace
+    var2 = 6
+    def some_inner_func():
+ 
+        # var3 is in the nested local
+        # namespace
+        var3 = 7
+
+---------------------------------------------------------------------------------------------------------------------
+
+Python String Literals
+
+String literals in python are surrounded by either single quotation marks, or double quotation marks.
+
+'hello' is the same as "hello".
+print("Hello")
+print('Hello')
+-------------------------------------------------------------------------------------------------------------------
+
+Python Operators
+
+Comparison operators
+Logical operators
+Identity operators
+Membership operators
+Bitwise operators
+
+Arithmetic operators
+
+Operator	Name	Example	
++	Addition	x + y	
+-	Subtraction	x - y	
+*	Multiplication	x * y	
+/	Division	x / y	
+%	Modulus	x % y	
+**	Exponentiation	x ** y	
+//	Floor division	x // y
+-------------------------------------
+
+Assignment operators
+
+Operator Example Same As
+=	x = 5	 x = 5	
++=	x += 3	 x = x + 3	
+-=	x -= 3	 x = x - 3	
+*=	x *= 3	 x = x * 3	
+/=	x /= 3	 x = x / 3	
+%=	x %= 3	 x = x % 3	
+//=	x //= 3	 x = x // 3
+
+-------------------------------------
+
+Comparison operators
+  
+Operator Name				Example	
+==	Equal				x == y	
+!=	Not equal			x != y	
+>	Greater than			x > y	
+<	Less than			x < y	
+>=	Greater than or equal to	x >= y	
+<=	Less than or equal to		x <= y
+----------------------------------------------
+
+Logical operators
+
+Operator Description	                                                    Example	
+and 	Returns True if both statements are tr	                            x < 5 and  x < 10	
+or	Returns True if one of the statements is true	                    x < 5 or x < 4	
+not	Reverse the result, returns False if the result is true	            not(x < 5 and x < 10)
+
+-------------------------------------------------
+
+Identity operators
+
+Operator Description	                                           Example	
+is	Returns True if both variables are the same object         x is y	
+is not 	Returns True if both variables are not the same object     x is not  y
+
+---------------------------------------------------------------
+
+Membership operators
+
+Operator Description	                                                                  Example	
+in 	Returns True if a sequence with the specified value is present in the object	  x in y	
+not in	Returns True if a sequence with the specified value is not present in the object  x not in y
+
+-----------------------------------------------------------------------
+
+Bitwise operators
+
+Operator Name			Description
+& 	AND			Sets each bit to 1 if both bits are 1
+|	OR			x = lambda a : a + 10
+print(x(5))Sets each bit to 1 if one of two bits is 1
+ ^	XOR			Sets each bit to 1 if only one of two bits is 1
+~ 	NOT	                Inverts all the bits
+<<	Zero fill left shift	Shift left by pushing zeros in from the right and let the leftmost bits fall off
+>>	Signed right shift	Shift right by pushing copies of the leftmost bit in from the left, and let the rightmost bits fall off
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+
+Python Lambda
+
+A lambda function is a small anonymous function.
+
+A lambda function can take any number of arguments, but can only have one expression.
+
+x = lambda a : a + 10
+print(x(5))
+
+x = lambda a, b, c : a + b + c
+print(x(5, 6, 2))
+
+def myfunc(n):
+  return lambda a : a * n
+mydoubler = myfunc(2)
+print(mydoubler(11))
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+Python Function
+
+A function is a block of code which only runs when it is called.
+
+You can pass data, known as parameters, into a function.
+
+A function can return data as a result.
+
+def my_function():
+  print("Hello from a function")
+
+def my_function(fname):
+  print(fname + " Refsnes")
+
+my_function("Emil")
+my_function("Tobias")
+my_function("Linus")
+
+When the pass statement is executed, nothing happens, but you avoid getting an error when empty code is not allowed.
+
+def myfunction():
+  pass
+
+class Person:
+  pass
+
+-----------------------------------------------------------------------------
+
+
+
+
