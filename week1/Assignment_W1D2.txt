@@ -1,0 +1,22 @@
+Python Assignment W1D2
+
+def hello_world():
+1. Write a Python function to print "Hello, world".
+
+def sum_2(x, y) -> int:
+2. Write a Python function to compute the sum of the two given integer values. If the two values are the same, then return triples their sum. 
+
+def abs_diff(n) -> int:
+3. Write a Python function to get the absolute difference between n and 51. If n is greater than 51 return triple the absolute difference. 
+
+def is_30(x, y) -> bool:
+4. Write a Python function to check two given integers, and return true if one of them is 30 or if their sum is 30. 
+
+def within_20(n) -> bool:
+5. Write a Python function to check a given integer and return true if it is within 20 of 100 or 300. 
+
+def if_string(word) -> str:
+6. Write a Python function to create a new string where 'if' is added to the front of a given string. If the string already begins with 'if', return the string unchanged. 
+
+def char_exchange(word) -> str:
+7. Write a Python function to exchange the first and last characters in a given string and return the new string. 
