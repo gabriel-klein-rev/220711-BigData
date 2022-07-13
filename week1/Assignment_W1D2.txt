@@ -4,7 +4,7 @@ def hello_world():
 1. Write a Python function to print "Hello, world".
 
 def sum_2(x, y) -> int:
-2. Write a Python function to compute the sum of the two given integer values. If the two values are the same, then return triples their sum. 
+2. Write a Python function to compute the sum of the two given integer values. If the two values are the same, then return triple their sum. 
 
 def abs_diff(n) -> int:
 3. Write a Python function to get the absolute difference between n and 51. If n is greater than 51 return triple the absolute difference. 
