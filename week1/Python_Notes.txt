@@ -1,0 +1,51 @@
+Python
+- Interpreted, object-oriented, high-level programming language
+- Interpreted   
+    - Translates the program one statement at a time
+    - Interpreters take less time to analyze source code, but takes
+     longer for execution of programs (as opposed to compilers)
+    - No .class files generated (bytecode), hence interpretors
+     are more memory efficient (as opposed to compilers)
+- Object-oriented   
+    - Deals with classes and objects
+- Dynamically typed
+    - Datatypes are dynamic, types are implicit
+
+- Namespaces
+    - Collection of currently defined symbolic names along with information
+     about the object that each name refrences
+    - Types of Namespaces   
+        - Built-in
+        - Global
+        - Enclosing
+        - Local
+
+- Built-in collections
+    - list
+        - Ordered, mutable collection that can include duplicate values
+        - Define with []
+    - set
+        - Unordered, mutable collection that only stores unique values
+        - defined with {}
+    - tuple
+        - Ordered, immutable collection that can include duplicates
+        - defined with ()
+    - dictionary
+        - Unordered collection of key-value pairs
+        - Keys are unique, values can be duplicated
+        - defined with {[key]:[value]}
+
+- COLLECTIONS MODULE
+    - Counters
+        - Sub-class of dictionary
+        - Takes in an iterable, returns an unordered dict where the keys are the 
+         elements, and the values of each key is the count that the element appears
+    - OrderedDict
+        - Dictionary, but remembers order in which keys were inserted
+        - Sub-class of dictionary
+    - DefaultDict
+        - Sub-class of dictionary
+        - Provides a default value for keys that are not present in the dict
+        - Never raise a KeyError
+    - NamedTuple
+        - Returns a tuple object with names for each position
