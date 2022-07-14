@@ -16,10 +16,18 @@ OOP
         - *** CAN"T MAKE ATTRIBUTES PRIVATE IN PYTHON ***
             - "Emulate" by prefixing attributes with _
         - Access attributes with control using setter/getter methods
+- Abstraction
+    - Handling complexity byu hiding unnecessary information from the user
+    - Achieved by using abstract classes
+        - Class that has one or more abstract methods
+            - Abstract method => unimplemented method
+    - abc (Abstract Base Class) module used to create abstract classes
 
 '''
 
-class Animal:
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
     def __init__(self, name, age, color=""):
         self._name = str(name)
         self._age = int(age)
@@ -31,20 +39,16 @@ class Animal:
     def getName(self):
         return self._name
 
-    # def getPhoneNumber(self):
-    #     return "xxx-xxx-" + _phoneNumber[-4:]
-
+    @abstractmethod
     def sleep(self):
-        print("***zzz***")
+        pass
 
     def getOlder(self, years=1):
         self._age += years
-    
-    # def getOlder(self):
-    #     self.age += 1
 
+    @abstractmethod
     def move(self):
-        print("*", self._name, "has moved. *")
+        pass
 
     def __str__(self):
         return "Name: " + self._name + ", Age: " + str(self._age) + ", Color: " + self._color
@@ -62,5 +66,17 @@ class Cat(Animal):
 
     def move(self):
         print("*", self._name, "walked. *")
+
+class Horse(Animal):
+    def sleep(self):
+        print("***sleep***")
+    
+    def move(self):
+        print("*", self.name, "galloped *")
+
+    def feed(self):
+        print("** Fed", self.name, "a carrot. **")
+    
+
 
 
