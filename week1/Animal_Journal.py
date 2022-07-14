@@ -1,40 +1,27 @@
 from Animals import Animal, Dog, Cat, Horse
+import re
+import logging
 
-# # a1 = Animal("fred", 13, "blue")
-# # a1.move()
-
-# d1 = Dog("Fido", 10, "brown")
-# c1 = Cat("Garfield", 15, "orange")
-
-# lst_Animals = [d1, c1]
-
-# for animal in lst_Animals:
-#     animal.sleep()
-#     animal.move()
-#     animal.getOlder(3)
-#     print(animal)
-
-# # c1._name = "asdf"
-# c1.setName(5)
-# print(c1)
 
 # TODO: Exception handling
 # Stretch goal: Be able to modify animals, call methods
 
 
 def main():
+    logging.basicConfig(filename="Animal_Journal.log", level=logging.DEBUG, format='%(asctime)s :: %(message)s')
 
     print("*** WELCOME TO THE ANIMAL JOURNAL! ***")
 
     fname = "all_animals.csv"
     lst_animals = []
     lst_animals = load_animals(fname)
+    logging.info("Loaded animals into lst_animals...")
 
     while(True):
         animal = insert_animal()
         if animal == None:
             break
-        
+        logging.info("Inserted a new animal...")        
         lst_animals.append(animal)
     
     print("\n\n***** All animals *****")
@@ -42,6 +29,7 @@ def main():
         print(elem)
 
     save_animals(fname, lst_animals)
+    logging.info("Saved animals to " + fname)
     print("\n\n")
 
 def save_animals(fname, lst_animals):
@@ -112,12 +100,43 @@ def insert_animal() -> Animal:
     animal_type = input(">>> ")
 
     # Break out of function if user wants to quit
-    if animal_type == "4":
+    if animal_type not in ["1", "2", "3"]:
         return None
 
-    name = input("\nEnter animal's name:\n>>>")
-    age = int(input("\nEnter animal's age:\n>>>"))
-    color = input("\nEnter animal's color:\n>>>")
+    while True:
+        try:
+            name = input("\nEnter animal's name:\n>>>")
+            check = re.search(',', name)
+
+            if check != None:
+                raise ValueError
+        except ValueError as ve:
+            print("\nCANNOT HAVE COMMAS IN NAME!\n")
+            logging.error("Tried to enter a comma for name, trying again...")
+        else:
+            break
+
+    while True:
+        try:
+            age = int(input("\nEnter animal's age:\n>>>"))
+        except ValueError as ve:
+            print("\nCANNOT ENTER A STRING FOR AGE! PLEASE ENTER AN INTEGER!\n")
+            logging.error("Tried to enter a string for age, trying again...")
+        else:
+            break
+
+    while True:   
+        try:
+            color = input("\nEnter animal's color:\n>>>")
+            check = re.search(',', color)
+
+            if check != None:
+                raise ValueError
+        except ValueError as ve:
+            print("\nCANNOT HAVE COMMAS IN COLOR!\n")
+            logging.error("Tried to enter a comma for color, trying again...")
+        else:
+            break
 
     if animal_type == "1":
         animal = Cat(name, age, color)
