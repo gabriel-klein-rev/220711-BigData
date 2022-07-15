@@ -1,0 +1,53 @@
+Python Review Questions
+
+1) What is the difference between an interpreter and a compiler? Which does Python use?
+	- https://docs.python.org/3/tutorial/interpreter.html
+
+2) What is a REPL?
+
+3) What is a compound statement?
+
+4) What data types do we have by default in Python?
+
+5) What is a namespace?
+
+6) What is the scope of a variable?
+
+7) What are the different operators we have in Python?
+
+8) What are functions?
+
+9) What is a lambda function? What is the syntax for creating a lambda?
+
+10) What is a list?
+	- https://docs.python.org/3/tutorial/datastructures.html
+
+11) What is a set?
+
+12) What is a tuple?
+
+13) What is a Dictionary?
+
+14) How can we open a file? What are the different modes for opening a file?
+	- https://docs.python.org/3/tutorial/inputoutput.html
+
+15) What is a module? How do we import a module?
+	- https://docs.python.org/3/tutorial/modules.html
+
+16) What is a datetime object?
+
+17) What are Regular Expressions? How do we use them?
+
+18) What are some data collections we have at our disposal in the Collections module?
+
+19) What is a class? What is an object?
+	- https://docs.python.org/3/tutorial/classes.html
+
+20) What are the pillars of Object Oriented Programming? (OOP) Explain them.
+	- https://medium.com/swlh/the-4-pillars-of-oop-in-python-9daaca4c0d13
+
+21) Know the different flow control statements (if/elif/else, for loops, while loops, etc.)
+	- https://docs.python.org/3/tutorial/controlflow.html
+
+22) What are exceptions? How can we handle them?
+	- https://docs.python.org/3/tutorial/errors.html
