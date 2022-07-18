@@ -1,0 +1,70 @@
+*************** FOLLOW THE DIRECTIONS BELOW, OR FOLLOW THIS LINK FOR AN IN DEPTH INSTRUCTION GUIDE ****************
+https://www.sqlshack.com/how-to-install-mysql-database-server-8-0-19-on-windows-10/#:~:text=Download%20and%20install%20MySQL%20database,can%20see%20four%20installation%20options
+
+(DON'T WORRY ABOUT THE DIFFERNCES IN VERSION)
+*******************************************************************************************************************
+
+
+
+ // Install MySQL Community Server
+https://dev.mysql.com/downloads/windows/installer/8.0.html
+
+// Download the "Windows (x86, 32-bit), MSI Installer" 435.7M size version
+
+// Install 'FULL' version
+
+// In the check requirements screen, dont select the 'MySQL for Visual studio', just click on Next. Do you want to continue prompt - click 'Yes'
+
+// Click on Execute in teh Installation screen
+
+// After installation completes > Click on 'Next'
+
+// In the Product Configuration screen> click on next
+
+// In the Type and Networking screen> Config type = Development Computer; Connectivity = as is Default 
+
+// In the Authentication method screen> select 'Use Strong Password'
+
+// In the Accounts and Roles screen > Specify the MySQL root account password. 
+
+// Add a User in the Accounts and Roles screen > MySQL User Accounts
+// click on Add user. Provide a username, hostname, Role of the User, type of authentication, and password. Once the user is created, click on Next. 
+
+
+// In the Windows Service screen > retain all as Default and click next
+
+// In the Apply Configuration screen > Click on Execute. Once Complte click on 'Finish'
+
+// In the Sample and Example screen > provide username and password of the user that has root/sysadmin privileges and click on 'Check'. If the connection establishes successfully, click on next. 
+
+// In Apply Configuration screen > Click on 'Execute'. After completion click on 'Finish'
+
+// The installer continues to the Product Configuration screen. On this screen, you can see that the installation of the MySQL Server 8.0.xx and Sample and Example 8.0.xx has been completed successfully. 
+
+// Once the installation completes, you can copy the installation logs on the clipboard to review it later. Moreover, if you want to start exploring MySQL straight away, then you can select “Start MySQL workbench after Setup” and “Start MySQL Shell after Setup” and click on Finish. 
+
+
+----------------------------------------
+// Connect to MySQL Server
+----------------------------------------
+//  Open MySQL workbench.
+
+// MySQL workbench is the development tool which is used to querying the database and create database objects.
+
+// On MySQL workbench welcome screen, you can see the list of MySQL connections. We have not configured multiple connections; hence you can see “Local instance MySQL80.” Click on it to open the new query editor window
+
+// When you click on the connection, you must enter the credentials to connect the database server. Enter the password and click on OK
+
+
+// First, let’s create a simple database on MySQL Server. Write the following query in the query editor window and click on execute. 
+Create database Demodatabase
+
+// Once the query executes successfully, you can see the new database in the “SCHEMAS” pan
+Click on 'Schemas' and click on refresh button to see the 'demodatabase'
+
+
+
+-----------------------------------------------
+Reference Links:
+1. https://www.sqlshack.com/how-to-install-mysql-database-server-8-0-19-on-windows-10/#:~:text=Download%20and%20install%20MySQL%20database,can%20see%20four%20installation%20options.
+2. 
