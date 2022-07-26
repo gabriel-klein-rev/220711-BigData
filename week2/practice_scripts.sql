@@ -375,5 +375,260 @@ SELECT * FROM color_likes;
 SELECT name, color_name FROM people JOIN color_likes ON id=personID
 	JOIN colors ON color_likes.colorID=colors.colorID;
     
+CREATE TABLE transactions (sender int, receiver int, amount int, transaction_date varchar(255));
+INSERT INTO transactions (sender, receiver, amount, transaction_date) VALUES
+	(5, 2, 10, "2-12-20"),
+	(1, 3, 15, "2-13-20"),
+	(2, 1, 20, "2-13-20"),
+	(2, 3, 25, "2-14-20"),
+	(3, 1, 20, "2-15-20"),
+	(3, 2, 15, "2-15-20"),
+	(1, 4, 5, "2-16-20");
     
+SELECT * FROM transactions;
+
+# COLUMNS TO GET:
+#	user - JOIN between sender/receiver
+#	net_change - amount_received - amount_sent for each user
+DROP TABLE sent;
+
+
+CREATE TABLE sent AS SELECT sender, SUM(amount) AS sent FROM transactions GROUP BY sender;
+SELECT * FROM sent;
+
+CREATE TABLE received AS SELECT receiver, SUM(amount) AS received FROM transactions GROUP BY receiver;
+SELECT * FROM received;
+    
+    
+SELECT sender AS user, COALESCE(received, 0) - COALESCE(sent, 0) AS net_change FROM sent 
+	LEFT JOIN received ON sender=receiver
+	UNION
+    SELECT receiver AS user, COALESCE(received, 0) - COALESCE(sent, 0) AS net_change FROM sent 
+    RIGHT JOIN received ON sender=receiver ORDER BY net_change DESC;
+    
+    
+# WEEK 3
+
+# CARDINALITY
+#    - The "uniqueness" of a column
+#    - The more unique elements we have in a column, the higher the cardinality
+
+# INDEX
+#    - Something we put on a column to improve query speed
+#    - Data in an indexed column is stored in some order, in a separate location called the index
+#    - Primary keys are automatically indexed (bst)
+#    - Can slow down insertion speed
+#    - To utilize indices to their fullest potential, use indices on columns with high cardinality
+#    - Can have multi-column indices (indexes)
+
+CREATE TABLE US_People (
+	firstName varchar(255), 
+	ssn int, 
+    state varchar(255));
+    
+INSERT INTO US_People (firstName, ssn, state) VALUES
+	("Fred", 123456789, "Texas"),
+    ("Stacy", 234567890, "Texas"),
+    ("Tom", 345678910, "Texas"),
+    ("Leah", 456789012, "Texas"),
+    ("Rachel", 198765432, "Texas"),
+    ("Tom", 987654321, "Alabama"),
+    ("Fred", 908765442, "Alabama"),
+    ("Bob", 543678123, "Alabama");
+    
+SELECT FirstName AS "First Name", SSN AS "Social Security Number", State FROM US_PEOPLE;
+
+SELECT * FROM US_People WHERE ssn = 198765432;
+SELECT * FROM US_People WHERE firstname = "Tom";
+
+SELECT * FROM US_People WHERE ssn > 500000000 OR firstName = "Tom";
+SELECT * FROM US_People WHERE firstname LIKE "_o%" AND state = "Alabama";
+
+CREATE INDEX idx_ssn ON US_People(ssn);
+
+CREATE INDEX idx_firstName ON US_People(firstName);
+
+CREATE INDEX idx_firstNameState ON US_PEOPLE(firstName, state);
+
+SELECT * FROM US_People;
+
+# VIEWS
+#    - Stored query with a name assigned to it
+#    - "Virtual table"
+
+
+SELECT * FROM US_People WHERE ssn > 500000000 OR firstName = "Tom";
+
+CREATE TABLE US_People_Filtered AS 
+	SELECT * FROM US_People WHERE ssn > 500000000 OR firstName = "Tom";
+    
+SELECT * FROM US_People_Filtered WHERE firstName != "Tom";
+    
+SELECT * FROM US_People_Filtered;
+
+CREATE VIEW US_People_Filtered_View AS
+	SELECT * FROM US_People WHERE ssn > 500000000 OR firstName = "Tom";
+    
+SELECT * FROM US_People_Filtered_View;
+
+SELECT * FROM US_People_Filtered_View WHERE firstName != "Tom";
+
+# CTE
+#    - Common Table Expression
+#    - Temporary result set that only exists within the scope of a single statement
+
+WITH t1 AS (SELECT * FROM US_People WHERE ssn > 500000000 OR firstName = "Tom")
+	SELECT * FROM t1 WHERE firstName != "Tom";
+SELECT * FROM t1;
+
+
+# SET OPERATORS - Combine result of one or more result set into one result set
+#               - Result sets must have same number of columns, same data type
+#     - UNION - Combine all the results that are in either result set, removing duplicates
+#     - UNION ALL - Combine all the results that are in either result set, keeping duplicates
+#     - INTERSECT - Combine results that are in both result sets
+#     - EXCEPT - Results from the first result set, minus the ones present in the second result set
+
+CREATE TABLE a (val int);
+CREATE TABLE b (val int);
+
+INSERT INTO a (val) VALUES (1), (2), (3), (4), (5);
+INSERT INTO b (val) VALUES (3), (4), (5), (6), (7);
+
+SELECT * FROM a;
+SELECT * FROM b;
+
+
+
+SELECT * FROM a UNION SELECT * FROM b;
+SELECT * FROM a UNION ALL SELECT * FROM b;
+
+# To emulate INTERSECT
+SELECT * FROM a WHERE val IN (SELECT * FROM b);
+
+# To emulate EXCEPT
+SELECT * FROM a WHERE val NOT IN (SELECT * FROM b);
+
+SELECT * FROM a LEFT JOIN b ON a.val = b.val;
+SELECT * FROM a RIGHT JOIN b ON a.val = b.val;
+
+SELECT * FROM a LEFT JOIN b ON a.val = b.val
+	UNION
+    SELECT * FROM a RIGHT JOIN b ON a.val = b.val;
+
+# NORMALIZATION
+#    - Process of reducing data redundancy and improving data integrety
+#    - Problems we may face without normalization
+#        - Insertion anomoly
+#        - Update anomoly
+#        - Deletion anomoly
+
+CREATE TABLE movie_store_0nf (
+	FullName varchar(255), 
+    Address varchar(255), 
+    MoviesRented varchar(255), 
+    FavoriteGenre varchar(255)
+);
+
+INSERT INTO movie_store_0nf (fullname, address, moviesrented, favoritegenre) VALUES
+	("Janet Jones", "255 1st St", "Pirates of the Caribbean, Clash of the Titans", "Action"),
+    ("Robert Phil", "123 3rd Ave", "Sherlock Holmes, Clash of the Titans", "Mystery"),
+    ("Robert Phil", "456 E Broadway", "Sherlock Holmes", "Mystery");
+    
+/*
+UPDATE movie_store_0nf SET 
+	moviesrented="Sherlock Holmes, Clash of the Titans, Piratres of the Carribean" 
+    WHERE firstName="Robert Phil" AND address="123 3rd Ave";
+*/
+    
+SELECT * FROM movie_store_0nf;
+
+# 1NF
+#    - Each table cell should contain a single value
+#    - Each record needs to be unique
+
+CREATE TABLE movie_store_1nf (
+	FullName varchar(255), 
+    Address varchar(255), 
+    MoviesRented varchar(255), 
+    FavoriteGenre varchar(255)
+);
+
+INSERT INTO movie_store_1nf (fullname, address, moviesrented, favoritegenre) VALUES
+	("Janet Jones", "255 1st St", "Pirates of the Caribbean", "Action"),
+    ("Janet Jones", "255 1st St", "Clash of the Titans", "Action"),
+    ("Robert Phil", "123 3rd Ave", "Sherlock Holmes", "Mystery"),
+    ("Robert Phil", "123 3rd Ave", "Clash of the Titans", "Mystery"),
+    ("Robert Phil", "456 E Broadway", "Sherlock Holmes", "Mystery");
+SELECT * FROM movie_store_1nf;
+
+SELECT * FROM movie_store_1nf WHERE fullname ="Robert Phil" AND address = "456 E Broadway" AND moviesrented = "Sherlock Holmes";
+
+# 2NF
+#    - Be in 1NF
+#    - Single Column Primary Key that is not functionally dependant on any subset of candidate key relation
+#    - Table should not contain partial dependancy. Proper subset of candidate key should not determine a non-prime attribute
+
+CREATE TABLE members_2nf (
+	memberID int AUTO_INCREMENT, 
+    FullName varchar(255), 
+    address varchar(255), 
+    favoriteGenre varchar(255),
+    PRIMARY KEY (memberID)
+);
+
+INSERT INTO members_2nf (FullName, address, favoritegenre) VALUES
+	("Janet Jones", "255 1st St", "Action"),
+    ("Robert Phil", "123 3rd Ave", "Mystery"),
+    ("Robert Phil", "456 E Broadway", "Mystery");
+
+SELECT * FROM members_2nf;
+
+DROP TABLE rentals_2nf;
+CREATE TABLE rentals_2nf (
+	rentalID int AUTO_INCREMENT,
+    memberID int,
+    movie varchar(255),
+    PRIMARY KEY (rentalID),
+    FOREIGN KEY (memberID) REFERENCES members_2nf(memberID)
+);
+
+INSERT INTO rentals_2nf (memberID, movie) VALUES
+	(1, "Pirates of the Caribbean"),
+    (1, "Clash of the Titans"),
+    (2, "Sherlock Holmes"),
+	(2, "Clash of the Titans"),
+    (3, "Sherlock Holmes");
+SELECT * FROM rentals_2nf;
+
+# 3NF
+#    - 2NF
+#    - Tables have no transitive functional dependencies
+
+
+
+
+
+
+
+# INSERT INTO rentals_2nf (memberID, movie) VALUES (2, "Pirates of the Caribbean");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+USE sakila;
+SELECT * FROM film;
+SELECT * FROM film JOIN language ON film.language_id=language.language_id;
+
+
     
