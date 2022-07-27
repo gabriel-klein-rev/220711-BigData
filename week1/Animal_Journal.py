@@ -2,28 +2,62 @@ from Animals import Animal, Dog, Cat, Horse
 import re
 import logging
 
+# For mysql connection. mysql_config is for my personal login information
+import mysql.connector
+import mysql_config as c
 
-# TODO: Exception handling
+
+# TODO: When we insert animal to csv, insert into db as well, Exception handling
 # Stretch goal: Be able to modify animals, call methods
 
 
 def main():
+
+    try:
+        cnx = mysql.connector.connect(user=c.user, password=c.password, host=c.host, database="220711_w2")
+        cursor = cnx.cursor()
+    except mysql.connector.Error as mce:
+        print(mce.msg)
+        return
+    except Exception as e:
+        print("ERROR: Exiting program")
+        return
+
+
     logging.basicConfig(filename="Animal_Journal.log", level=logging.DEBUG, format='%(asctime)s :: %(message)s')
 
     print("*** WELCOME TO THE ANIMAL JOURNAL! ***")
 
     fname = "all_animals.csv"
-    lst_animals = []
-    lst_animals = load_animals(fname)
+    '''
+        lst_animals = []
+        lst_animals = load_animals(fname)
+
+    '''
+    lst_animals = load_animals_db(cursor)
+
     logging.info("Loaded animals into lst_animals...")
 
     while(True):
-        animal = insert_animal()
+        animal = insert_animal(cursor)
+        if animal == 1:
+            cnx.commit()
+            lst_animals = load_animals_db(cursor)
+            continue
+
         if animal == None:
             break
         logging.info("Inserted a new animal...")        
         lst_animals.append(animal)
-    
+        if type(animal) == Cat:
+            add_animal_db = f"INSERT INTO animals (name, age, color, type) VALUES ('{animal._name}', {animal._age}, '{animal._color}', 'Cat')"
+        elif type(animal) == Dog:
+            add_animal_db = f"INSERT INTO animals (name, age, color, type) VALUES ('{animal._name}', {animal._age}, '{animal._color}', 'Dog')"
+        else:
+            add_animal_db = f"INSERT INTO animals (name, age, color, type) VALUES ('{animal._name}', {animal._age}, '{animal._color}', 'Horse')"
+        
+        cursor.execute(add_animal_db)
+
     print("\n\n***** All animals *****")
     for elem in lst_animals:
         print(elem)
@@ -31,6 +65,39 @@ def main():
     save_animals(fname, lst_animals)
     logging.info("Saved animals to " + fname)
     print("\n\n")
+
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+
+
+
+def load_animals_db(cursor) -> list:
+    '''
+    This function grabs data from our mySQL server which holds
+    a record of animals we have inserted. Returns a list of animals
+    contained in our animals table
+    '''
+    query = "SELECT animalID, name, age, type, color FROM animals"
+
+    cursor.execute(query)
+    lst_animals = []
+
+    for record in cursor:
+        animal = None
+        if record[3] == "Cat":
+            animal = Cat(record[1], record[2], record[4])
+        elif record[3] == "Dog":
+            animal = Dog(record[1], record[2], record[4])
+        elif record[3] == "Horse":
+            animal = Horse(record[1], record[2], record[4])
+        else:
+            raise Exception("INVALID ANIMAL!")
+        
+        lst_animals.append(animal)
+    
+    return lst_animals
+
 
 def save_animals(fname, lst_animals):
     '''
@@ -82,7 +149,28 @@ def load_animals(fname) -> list:
     return lst_animals
 
     
-def insert_animal() -> Animal:
+def modify_animal(cursor):
+    # If we modify an animal, make sure to reload lst_animals
+    query = "SELECT animalID, name, age, type, color FROM animals"
+
+    cursor.execute(query)
+
+    for record in cursor:
+        print(f"\t{record[0]}: {record[1]}, age: {record[2]}, color: {record[4]}")
+
+    animal_to_modify = input("Select a record to modify (use animal ID): ")
+    col_to_modify = input("Select an attribute to modify (name, age, color): ")
+    modified_value = input(f"What do you want to change {col_to_modify} to?")
+
+    if col_to_modify == 'age':
+        update_statement = f"UPDATE animals SET {col_to_modify}={modified_value} WHERE animalID={animal_to_modify}"
+    else:
+        update_statement = f"UPDATE animals SET {col_to_modify}='{modified_value}' WHERE animalID={animal_to_modify}"
+
+    cursor.execute(update_statement)
+
+
+def insert_animal(cursor) -> Animal:
     '''
     insert_animal
 
@@ -97,7 +185,14 @@ def insert_animal() -> Animal:
     print("\t2) Dog")
     print("\t3) Horse")
     print("\t4) quit")
+    print("\t5) Edit record")
     animal_type = input(">>> ")
+
+    if animal_type == "5":
+        modify_animal(cursor)
+        # If this if statement runs, make sure to reload lst_animals
+        return 1
+
 
     # Break out of function if user wants to quit
     if animal_type not in ["1", "2", "3"]:
