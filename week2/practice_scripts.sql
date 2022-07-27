@@ -605,22 +605,83 @@ SELECT * FROM rentals_2nf;
 #    - 2NF
 #    - Tables have no transitive functional dependencies
 
+CREATE TABLE employees (
+	empID int auto_increment, 
+    name varchar(255),
+    state varchar(255),
+    country varchar(255),
+    zipcode int,
+    PRIMARY KEY (empID)
+);
+
+INSERT INTO employees (name, state, country, zipcode) VALUES
+	("Fred", "Texas", "USA", 45094),
+    ("Stacy", "Arizona", "USA", 84905),
+    ("Leah", "Virginia", "USA", 39476);
+SELECT * FROM employees;
+    
+CREATE TABLE employees_3nf AS SELECT empID, name, zipcode FROM employees;
+SELECT * FROM employees_3nf;
+ALTER TABLE employees_3nf ADD PRIMARY KEY(empID);
+ALTER TABLE employees_3nf ADD FOREIGN KEY(zipcode) REFERENCES locations_3nf(zipcode);
+
+CREATE TABLE locations_3nf AS SELECT zipcode, state, country FROM employees;
+SELECT * FROM locations_3nf;
+
+# START TRANSACTION;
+ALTER TABLE locations_3nf ADD PRIMARY KEY(zipcode);
+# COMMIT;
 
 
 
 
 
 
-# INSERT INTO rentals_2nf (memberID, movie) VALUES (2, "Pirates of the Caribbean");
+# TRANSACTION
+#    - A single, logical unit of work that accesses/modifies the contents of a database
+#    - Can start a transaction that consists of multiple commands with 'START TRANSACTION;'
+#    - When transaction starts, we can either COMMIT all of our commands, or ROLLBACK to start of transaction.
+#    - By default, every statement/command in MySQL is SET to autocommit.
+#    - Changes to a db do not occur until we COMMIT after STARTing a TRANSACTION
+
+# Properties of TRANSACTIONs
+#    - ACID
+#    - Atomicity
+#        - "All or nothing"
+#        - TRANSACTION either occurs fully, or not at all
+#    - Consistency
+#        - Database is consistent before and after the transaction
+#        - Any corruption/error that occurs will not create any inconsistencies
+#    - Isolation
+#        - Any transaction cannot interfere with another transaction running concurrently
+#    - Durability
+#        - If a transaction has been fully committed, the updates to the db are stored and 
+#          persisted to disk, even if a system failure occurs
 
 
 
+#   X : 200           Y : 400
+#   x = +100          Y = -100
+-- -------------------------------
+#   X : 300           Y = 300
 
+###############################################################
+START TRANSACTION;
 
+INSERT INTO locations_3nf (zipcode, state, country) VALUES 
+	(84091, "Arizona", "USA");
 
+INSERT INTO employees_3nf (empid, name, zipcode) VALUES
+	(4, "Tom", 84091);
+    
+COMMIT;
+#################################################################
 
+START TRANSACTION;
+INSERT INTO locations_3nf (zipcode, state, country) VALUES 
+	(840913245, "AriZONA", "USA");
 
-
+ROLLBACK;
 
 
 
