@@ -10,6 +10,7 @@ see all orders and users.
     - The application must be able to create, read, update, and delete.
     - Use at least 3 different tables/documents.
     - The application must have a login feature, as well as user/admin roles
+    - Logging of events should be implemented (connecting to db, interacting with db/files, etc.)
 
 Your "store" can be whatever you want (furniture, appliances, movies, etc.). Some 
 admin features that you may want to implement: modifying inventory, removing/editing users,
