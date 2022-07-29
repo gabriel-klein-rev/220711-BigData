@@ -1,0 +1,39 @@
+MongoDB
+
+- MongoDB is a NoSQL language
+    - "Not Only" SQL
+    - MongoDB is a document based NoSQL DBMS
+    - NoSQL db features include (lack of a db schema), data clustering, replication support, eventual consistency
+    - MongoDB provides high performance, high availability, easy scalability (good for big data)
+
+RDBMS               MongoDB
+Database            Database
+Table               Collection
+Row                 Documents
+Columns             Field
+JOIN                Embedded documents
+
+- In RDMBS, we can design our db using normalization (create relations with fk, etc)
+
+- In MongoDB, no rules for db design
+
+    - Only thing that matters when we design a db is making something that works for OUR application
+
+    - Things to take into account:
+        - How to store the data
+        - Provide good query performance
+        - Keep in mind hardware limitations
+    
+    - In SQL languages, we have the ACID properties of a transaction
+    - In NoSQL languages, we have the BASE properties of transactions
+	- Basically Available
+		- Ensuring availability of data through data replication
+	- Soft State
+		- Delegating the responsibility of enforcing consistency to the developer
+	- Eventual Consistency
+		- Eventually, the db across all nodes throughout the cluster will be consistent
+
+- Sharding
+	- Utilizing multiple systems to increase the resources in a server/cluster
+	- Example of "horizontal scaling"
+

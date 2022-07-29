@@ -1,0 +1,302 @@
+What are NoSQL databases?
+NoSQL is an approach to database management that can accommodate a wide variety of data models, including key-value, document, columnar and graph formats. A NoSQL database generally means that it is non-relational, distributed, flexible and scalable. Additional common NoSQL database features include the lack of a database schema, data clustering, replication support and eventual consistency, as opposed to the typical ACID (atomicity, consistency, isolation and durability) transaction consistency of relational and SQL databases. Many NoSQL database systems are also open source.
+
+MongoDB is a cross-platform, document oriented database that provides, high performance, high availability, and easy scalability. MongoDB works on concept of collection and document.
+
+Database
+Database is a physical container for collections. Each database gets its own set of files on the file system. A single MongoDB server typically has multiple databases.
+
+Collection
+Collection is a group of MongoDB documents. It is the equivalent of an RDBMS table. A collection exists within a single database. Collections do not enforce a schema. Documents within a collection can have different fields. Typically, all documents in a collection are of similar or related purpose.
+
+Document
+A document is a set of key-value pairs. Documents have dynamic schema. Dynamic schema means that documents in the same collection do not need to have the same set of fields or structure, and common fields in a collection's documents may hold different types of data.
+----------------------------------------------------------------------------------------------------------------------------------
+The following table shows the relationship of RDBMS terminology with MongoDB.
+
+RDBMS	        MongoDB
+Database	Database
+Table	        Collection
+Tuple/Row	Document
+column	        Field
+Table Join	Embedded Documents
+Primary Key	Primary Key (Default key _id provided by MongoDB itself)
+
+Database Server and Client
+mysqld/Oracle	    mongod
+mysql/sqlplus	    mongo
+
+---------------------------------------------------------------------------------------------------------------------------------------
+Connection String URI Format
+
+Connection String Formats
+You can specify the MongoDB connection string using either:
+
+1)The Standard Connection String Format or
+2)The DNS Seed List Connection Format.
+
+1)Standard Connection String Format
+This section describes the standard format of the MongoDB connection URI used to connect to a MongoDB deployment: standalone, replica set, or a sharded cluster.
+
+The standard URI connection scheme has the form
+mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]
+
+mongodb://mongodb0.example.com:27017
+
+2)DNS Seed List Connection Format
+Using DNS to construct the available servers list allows more flexibility of deployment and the ability to change the servers in rotation without reconfiguring clients.
+
+The following example shows a typical connection string for a DNS seed list connection string:
+
+mongodb+srv://server.example.com/
+The corresponding DNS configuration might resemble:
+
+Record                            TTL   Class    Priority Weight Port  Target
+_mongodb._tcp.server.example.com. 86400 IN SRV   0        5      27317 mongodb1.example.com.
+_mongodb._tcp.server.example.com. 86400 IN SRV   0        5      27017 mongodb2.example.com.
+
+---------------------------------------------------------------------------------------------------------
+Relational Schema Design
+When designing a relational schema, typically, devs model their schema independent of queries. They ask themselves, "What data do I have?" Then, by using prescribed approaches, they will normalize (typically in 3rd normal form). The tl;dr of normalization is to split up your data into tables, so you don't duplicate data. Let's take a look at an example of how you would model some user data in a relational database.
+---------------------------
+MongoDB Schema Design
+Now, MongoDB schema design works a lot differently than relational schema design. With MongoDB schema design, there is:
+
+No formal process
+No algorithms
+No rules
+
+When you are designing your MongoDB schema design, the only thing that matters is that you design a schema that will work well for _your_ application. Two different apps that use the same exact data might have very different schemas if the applications are used differently. When designing a schema, we want to take into consideration the following:
+
+Store the data
+Provide good query performance
+Require reasonable amount of hardware
+
+Example
+{
+    "first_name": "Paul",
+    "surname": "Miller",
+    "cell": "447557505611",
+    "city": "London",
+    "location": [45.123, 47.232],
+    "profession": ["banking", "finance", "trader"],
+    "cars": [
+        {
+            "model": "Bentley",
+            "year": 1973
+        },
+        {
+            "model": "Rolls Royce",
+            "year": 1965
+        }
+    ]
+}
+------------------------------------------------------------------------------------------
+ Database commands.
+
+>use mydb
+>db
+>show dbs
+>use mydb
+>db.dropDatabase()
+-------------------------------------------------------
+Collection
+
+>use test
+switched to db test
+>db.createCollection("mycollection")
+>show collections
+
+However In MongoDB, you don't need to create collection. MongoDB creates collection automatically, when you insert some document.
+
+>db.tutorialspoint.insert({"name" : "tutorialspoint"})
+>db.mycollection.drop()
+-----------------------------------------------------------------------------------------------------------------
+MongoDB supports many datatypes. Some of them are 
+
+String − This is the most commonly used datatype to store the data. String in MongoDB must be UTF-8 valid.
+Integer − This type is used to store a numerical value. Integer can be 32 bit or 64 bit depending upon your server.
+Boolean − This type is used to store a boolean (true/ false) value.
+Double − This type is used to store floating point values.
+Min/ Max keys − This type is used to compare a value against the lowest and highest BSON elements.
+Arrays − This type is used to store arrays or list or multiple values into one key.
+Timestamp − ctimestamp. This can be handy for recording when a document has been modified or added.
+Object − This datatype is used for embedded documents.
+Null − This type is used to store a Null value.
+Symbol − This datatype is used identically to a string; however, it's generally reserved for languages that use a specific symbol type.
+Date − This datatype is used to store the current date or time in UNIX time format. You can specify your own date time by creating object of Date and passing day, month, year into it.
+Object ID − This datatype is used to store the document’s ID.
+Binary data − This datatype is used to store binary data.
+Code − This datatype is used to store JavaScript code into the document.
+Regular expression − This datatype is used to store regular expression
+
+-----------------------------------------------------------------------------------------------------------
+Insert
+db.users.insert({_id : ObjectId("507f191e810c19729de860ea"),title: "MongoDB Overview", description: "MongoDB is no sql database", by: "tutorials point",url: "http://www.tutorialspoint.com",tags: ['mongodb', 'database', 'NoSQL'],likes: 100})
+
+
+
+
+---------------------------------------------
+>db.createCollection("empDetails")
+> db.empDetails.insertOne(
+	{
+		First_Name: "Radhika",
+		Last_Name: "Sharma",
+		Date_Of_Birth: "1995-09-26",
+		e_mail: "radhika_sharma.123@gmail.com",
+		phone: "9848022338"
+	})
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("5dd62b4070fb13eec3963bea")
+}
+--------------------------------------------
+> db.empDetails.insertMany(
+	[
+		{
+			First_Name: "Radhika",
+			Last_Name: "Sharma",
+			Date_Of_Birth: "1995-09-26",
+			e_mail: "radhika_sharma.123@gmail.com",
+			phone: "9000012345"
+		},
+		{
+			First_Name: "Rachel",
+			Last_Name: "Christopher",
+			Date_Of_Birth: "1990-02-16",
+			e_mail: "Rachel_Christopher.123@gmail.com",
+			phone: "9000054321"
+		},
+		{
+			First_Name: "Fathima",
+			Last_Name: "Sheik",
+			Date_Of_Birth: "1990-02-16",
+			e_mail: "Fathima_Sheik.123@gmail.com",
+			phone: "9000054321"
+		}
+	]
+)
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("5dd631f270fb13eec3963bed"),
+		ObjectId("5dd631f270fb13eec3963bee"),
+		ObjectId("5dd631f270fb13eec3963bef")
+	]
+}
+--------------------------------------------------------
+Find
+
+>db.empDetails.find()
+>db.empDetails.find().pretty()
+>db.mycol.findOne({title: "MongoDB Overview"})
+----------------------------------------------------------------------------------------------------------------
+
+Update
+
+Syntax
+>db.COLLECTION_NAME.update(SELECTION_CRITERIA, UPDATED_DATA)
+
+Consider the mycol collection has the following data.
+
+{ "_id" : ObjectId(5983548781331adf45ec5), "title":"MongoDB Overview"}
+{ "_id" : ObjectId(5983548781331adf45ec6), "title":"NoSQL Overview"}
+{ "_id" : ObjectId(5983548781331adf45ec7), "title":"Tutorials Point Overview"}
+
+>db.mycol.update({'title':'MongoDB Overview'},{$set:{'title':'New MongoDB Tutorial'}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+>db.mycol.find()
+{ "_id" : ObjectId(5983548781331adf45ec5), "title":"New MongoDB Tutorial"}
+{ "_id" : ObjectId(5983548781331adf45ec6), "title":"NoSQL Overview"}
+{ "_id" : ObjectId(5983548781331adf45ec7), "title":"Tutorials Point Overview"}
+
+---------------------------------------------------------------------------------------------------------------------
+Delete
+
+>db.mycol.remove({'title':'MongoDB Overview'})
+--------------------------------------------------------------------------------------------------------------------
+
+Limit
+
+db.mycol.find({},{"title":1,_id:0}).limit(2)
+
+--------------------------------------------------------------------------------------------------------------------
+Sort
+To sort documents in MongoDB, you need to use sort() method. The method accepts a document containing a list of fields along with their sorting order. To specify sorting order 1 and -1 are used. 1 is used for ascending order while -1 is used for descending order.
+
+>db.mycol.find({},{"title":1,_id:0}).sort({"title":-1})
+
+-----------------------------------------------------------------------------------------------------------------
+Aggregate
+
+db.mycol.aggregate([{$group : {_id : "$by_user", num_tutorial : {$sum : 1}}}])
+
+$sum	Sums up the defined value from all documents in the collection.
+$avg	Calculates the average of all given values from all documents in the collection.
+$min	Gets the minimum of the corresponding values from all documents in the collection.
+$max	Gets the maximum of the corresponding values from all documents in the collection.
+$first	Gets the first document from the source documents according to the grouping. Typically this makes only sense together with some previously applied “$sort”-stage.
+$last	Gets the last document from the source documents according to the grouping. Typically this makes only sense together with some previously applied “$sort”-stage.
+------------------------------------------------------------------------------------------------------------------
+Index
+
+>db.COLLECTION_NAME.createIndex({KEY:1})
+
+Here key is the name of the field on which you want to create index and 1 is for ascending order. To create index in descending order you need to use -1.
+
+db.mycol.createIndex({"title":1})
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+
+
+
+-----------------------------------------------------------------------------------------------------------------
+Sharding
+
+Sharding is the process of storing data records across multiple machines and it is MongoDB's approach to meeting the demands of data growth. As the size of the data increases, a single machine may not be sufficient to store the data nor provide an acceptable read and write throughput. Sharding solves the problem with horizontal scaling. With sharding, you add more machines to support data growth and the demands of read and write operations.
+
+-----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
