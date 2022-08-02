@@ -1,0 +1,37 @@
+Common Linux Commands:
+
+pwd
+	* Print absolute path of present working directory to console
+
+ls
+	* List files/directories in directory
+	* can be used with -a (including hidden files), -l (long form of files)
+
+cd [directory]
+	* Change directories
+
+mkdir [dir_name]
+	* Makes a directory
+
+mv [file_to_move] [location]
+	* Move a file. Can be used to rename a file.
+
+cp [file_to_copy] [location]
+	* Copy a file
+
+rm [file]
+	* Remove file.
+	* Can be used with -r to remove directory and its contents
+
+echo [text]
+	* Print text to terminal. 
+	* Can be used with > or >> to redirect output to file to quickly create a file
+
+cat [file]
+	* Concatanate file and print to console
+
+grep "[pattern]" [file]
+	* Searches a file for a pattern. Returns each line that matches
+
+chmod [permissions] [file]
+	* Change permissions of a file
