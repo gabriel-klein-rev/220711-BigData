@@ -1,0 +1,31 @@
+Components of YARN
+
+- Resource Manager
+  - Manage resources across all the nodes working in
+    Hadoop
+  - Manage the Node Managers
+  - SCHEDULER
+	- Fair Scheduler
+	  - Schedule tasks based on a FIFO system
+	- Capacity Scheduler
+	  - Schedule tasks based on size of resources
+  - APPLICATIONS MANAGER
+	- Manages running of Application Master (inside of
+ 	  Node Manager) and helps to restart Application
+  	  Master when it fails
+- Node Manager
+  - Responsible for the execution of the task in each
+    DataNode.
+  - Manages workflow and user jobs on a specific node
+  - Send a heartbeat to the Resource Manager with
+    information of the resources in each container.
+  - Container
+	- Set of resources (RAM, CPU, Storage) on a single
+ 	  node.
+	- Resources are allocated by the Resource Manager 
+	  and monitored by the Node Manager
+  - Application Master
+	- Monitor the execution of tasks running on each 
+	  node in the cluster.
+	- Main responsibility is to negotiate resources 
+	  from the Resource Manager
