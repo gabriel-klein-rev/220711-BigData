@@ -1,0 +1,31 @@
+Big Data Review questions:
+
+What are the core components of Hadoop?
+
+What are the characteristics of Hadoop?
+
+What is the purpose of HDFS?
+
+YARN?
+
+MapReduce?
+
+Explain the architecture of HDFS?
+
+What is the purpose of Namenode? Datanode?
+
+What is the default block size in HDFS?
+
+Default replications?
+
+What is the architecture of YARN?
+
+What is the purpose of ResourceManager? NodeManager?
+
+Purpose of Scheduler? ApplicationsManager? Container? Applications Master?
+
+What are the different types of input formats?
+
+What is a columnar file format?
+
+What is Hive?
